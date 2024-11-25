@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.dicoding.picodiploma.productdetail.data.entity.ProductModel
 import com.dicoding.picodiploma.productdetail.data.remote.RemoteDataSource
 import com.dicoding.picodiploma.productdetail.databinding.ActivityMainBinding
 import com.dicoding.picodiploma.productdetail.helper.withCurrencyFormat
@@ -26,6 +27,23 @@ class MainActivity : AppCompatActivity() {
         setupView()
         setupAction()
         setupData()
+    }
+
+    private fun setupAccessibility(productModel: ProductModel) {
+        productModel.apply {
+            binding.apply {
+                settingImageView.contentDescription = getString(R.string.settingDescription)
+                previewImageView.contentDescription = getString(R.string.previewDescription)
+                colorTextView.contentDescription = getString(R.string.colorDescription, color)
+                sizeTextView.contentDescription = getString(R.string.sizeDescription, size)
+                ratingTextView.contentDescription = getString(
+                    R.string.ratingDescription,
+                    rating.withNumberingFormat(),
+                    countRating.withNumberingFormat()
+                )
+                storeTextView.contentDescription = getString(R.string.storeDescription, store)
+            }
+        }
     }
 
     private fun setupData() {
@@ -49,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+        setupAccessibility(product)
     }
 
     private fun setupAction() {
